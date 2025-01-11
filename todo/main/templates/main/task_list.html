@@ -1,5 +1,14 @@
-{% if request.user.is_authenticated %}
-    <p>{{request.user}}</p>
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Список заданий{% endblock title %}
+
+{% block content %}
+<div class="header_bar">
+    <div class="greet_user">
+        <h1>Hello, {{request.user|title}}</h1>
+        <h3><span class="number_tasks">You have <i>{{count}}</i> incomplete task</span></h3>
+    </div>
+    {% if request.user.is_authenticated %}
     <form action="{% url 'logout' %}" method="POST">
         {% csrf_token %}
         <button type="submit">Logout</button>
@@ -7,6 +16,7 @@
 {% else %}
     <a href="{% url 'login' %}">Login</a>
 {% endif %}
+</div>
 
 
 <hr>
@@ -38,3 +48,4 @@
         <h3>No items in list</h3>
     {% endfor %}
 </table>
+{% endblock content %}

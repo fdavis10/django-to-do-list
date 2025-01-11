@@ -1,3 +1,8 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Регистрация{% endblock title %}
+
+{% block content %}
 <h1>Register</h1>
 
 <form method="POST">
@@ -5,3 +10,4 @@
     {{form.as_p}}
     <input type="submit" value="Register" id="">
 </form>
+{% endblock content %}
