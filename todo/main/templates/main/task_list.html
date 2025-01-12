@@ -5,12 +5,13 @@
 {% block content %}
 <div class="header_bar">
     <div class="greet_user">
-        <h1>Hello, {{request.user|title}}</h1>
+        <h1><span class="greet">Hello, {{request.user|title}}</span></h1>
         <h3><span class="number_tasks">You have <i>{{count}}</i> incomplete task</span></h3>
     </div>
     {% if request.user.is_authenticated %}
     <form action="{% url 'logout' %}" method="POST">
         {% csrf_token %}
+        <img class="logout_logo" src="{% static 'img/logout.png' %}">
         <button type="submit">Logout</button>
     </form>
 {% else %}
@@ -19,33 +20,30 @@
 </div>
 
 
-<hr>
-<h1>My To Do List {{color}}</h1>
+<div class="container_list">
+    <h1>My To Do List {{color}}</h1>
+    <a href="{% url "task-create" %}">Add Task</a>
+    <form method="GET">
+        <input type="text" name="search-area" value={{search_input}}>
+        <input type="submit" value="search">
+    </form>
 
-
-
-<a href="{% url "task-create" %}">Add Task</a>
-
-<form method="GET">
-    <input type="text" name="search-area" value={{search_input}}>
-    <input type="submit" value="search">
-</form>
-
-<table>
-    <tr>
-        <th>Items</th>
-        <th></th>
-        <th></th>
-    </tr>
-    {% for task in tasks  %}
-    <tr>
-        <th>{{task.title}}</th>
-        <td><a href="{% url "task" task.id %}">View</a></td>
-        <td><a href="{% url "task-update" task.id %}">Edit</a></td>
-        <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
-    </tr>
-    {% empty %}
-        <h3>No items in list</h3>
-    {% endfor %}
-</table>
+    <table>
+        <tr>
+            <th>Items</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for task in tasks  %}
+        <tr>
+            <th>{{task.title}}</th>
+            <td><a href="{% url "task" task.id %}">View</a></td>
+            <td><a href="{% url "task-update" task.id %}">Edit</a></td>
+            <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
+        </tr>
+        {% empty %}
+            <h3>No items in list</h3>
+        {% endfor %}
+    </table>
+</div>
 {% endblock content %}
